@@ -1,4 +1,4 @@
-package net.franckbenault.jpa.hibernate;
+package net.franckbenault.securecoding.sqlinjection.jpa;
 
 import java.util.Date;
 
