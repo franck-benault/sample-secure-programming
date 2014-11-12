@@ -71,5 +71,6 @@
 	</build>
 	<modules>
 		<module>01-sql-injection-jdbc</module>
+		<module>02-sql-injection-jpa</module>
 	</modules>
 </project>
