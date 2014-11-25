@@ -24,12 +24,18 @@ public class H2Server implements DBServerInterface {
         		"DROP ALL OBJECTS;" );
         ps2.executeUpdate();
         ps2 = connection.prepareStatement(
-        		"CREATE TABLE PERSON(ID VARCHAR(2), FIRSTNAME VARCHAR(20), LASTNAME VARCHAR(20),  CONSTRAINT PK PRIMARY KEY (ID));;" );
+        		"CREATE TABLE PERSON(FIRSTNAME VARCHAR(20), LASTNAME VARCHAR(20),  CONSTRAINT PK PRIMARY KEY (FIRSTNAME,LASTNAME));;" );
         ps2.executeUpdate();
 	}
 	
-	public Person createPerson(String firstName, String lastName) {
-		return null;
+	public Person createPerson(String firstName, String lastName) throws SQLException {
+		
+		PreparedStatement ps2 = connection.prepareStatement(
+        		"insert into PERSON (FIRSTNAME,LASTNAME) values ('"+firstName+"','"+lastName+"');");
+        ps2.executeUpdate();
+        
+
+		return new Person(firstName, lastName);
 	}
 	
 	public int executeQueryUpdate(String query) throws SQLException {

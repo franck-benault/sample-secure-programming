@@ -8,7 +8,7 @@ public interface DBServerInterface {
 
 	void start() throws ClassNotFoundException, SQLException;
 	
-	Person createPerson(String firstName, String lastName);
+	Person createPerson(String firstName, String lastName) throws SQLException ;
 	
 	int countTables() throws SQLException;
 		

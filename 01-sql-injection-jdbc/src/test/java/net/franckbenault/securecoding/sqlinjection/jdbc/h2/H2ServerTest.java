@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
+import net.franckbenault.securecoding.sqlinjection.dto.Person;
 import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
 
 import org.junit.After;
@@ -37,10 +38,17 @@ public class H2ServerTest {
 	}
 
 	@Test
+	public void testCreatePerson() throws SQLException {
+		
+		Person person =server.createPerson("firstName", "lastName");
+		assertNotNull(person);
+	}
+	
+	@Test
 	public void testCountTables() throws SQLException {
 		
 		assertEquals(server.countTables(),1);
-		//fail("Not yet implemented");
+
 	}
 
 }
