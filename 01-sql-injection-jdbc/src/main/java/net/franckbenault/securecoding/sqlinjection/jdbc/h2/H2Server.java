@@ -7,11 +7,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
+import org.apache.log4j.Logger;
+
 import net.franckbenault.securecoding.sqlinjection.dto.Person;
 import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
 
 public class H2Server implements DBServerInterface {
 
+	private static final Logger logger = Logger.getLogger(H2Server.class);
+	
 	private Connection connection;
 	
 	public void start() throws ClassNotFoundException, SQLException {
@@ -30,8 +36,12 @@ public class H2Server implements DBServerInterface {
 	
 	public Person createPerson(String firstName, String lastName) throws SQLException {
 		
-		PreparedStatement ps2 = connection.prepareStatement(
-        		"insert into PERSON (FIRSTNAME,LASTNAME) values ('"+firstName+"','"+lastName+"');");
+		String sqlOrder =
+        		"insert into PERSON (FIRSTNAME,LASTNAME) values ('"+firstName+"','"+lastName+"');";
+
+		logger.info("sql order: "+sqlOrder);
+		
+		PreparedStatement ps2 = connection.prepareStatement(sqlOrder);
         ps2.executeUpdate();
         
 
