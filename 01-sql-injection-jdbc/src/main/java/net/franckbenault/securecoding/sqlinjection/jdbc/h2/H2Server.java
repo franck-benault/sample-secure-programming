@@ -18,7 +18,7 @@ public class H2Server implements DBServerInterface {
 
 	private static final Logger logger = Logger.getLogger(H2Server.class);
 	
-	private Connection connection;
+	protected Connection connection;
 	
 	public void start() throws ClassNotFoundException, SQLException {
 	
@@ -30,7 +30,7 @@ public class H2Server implements DBServerInterface {
         		"DROP ALL OBJECTS;" );
         ps2.executeUpdate();
         ps2 = connection.prepareStatement(
-        		"CREATE TABLE PERSON(FIRSTNAME VARCHAR(20), LASTNAME VARCHAR(20),  CONSTRAINT PK PRIMARY KEY (FIRSTNAME,LASTNAME));;" );
+        		"CREATE TABLE PERSON(FIRSTNAME VARCHAR(40), LASTNAME VARCHAR(40),  CONSTRAINT PK PRIMARY KEY (FIRSTNAME,LASTNAME));;" );
         ps2.executeUpdate();
 	}
 	
@@ -46,12 +46,6 @@ public class H2Server implements DBServerInterface {
         
 
 		return new Person(firstName, lastName);
-	}
-	
-	public int executeQueryUpdate(String query) throws SQLException {
-        PreparedStatement ps2 = connection.prepareStatement(
-        		query );
-        return ps2.executeUpdate();
 	}
 	
 	public int countTables() throws SQLException {
@@ -89,10 +83,5 @@ public class H2Server implements DBServerInterface {
                 size++;
            }
 		return size;
-	}
-
-	public String getDBVersion() throws SQLException {
-		DatabaseMetaData md = connection.getMetaData();
-		return md.getDatabaseProductVersion();
 	}
 }
