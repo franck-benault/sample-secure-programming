@@ -8,6 +8,18 @@
 	</parent>
 	<artifactId>02-sql-injection-jpa</artifactId>
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>tomee-embedded</artifactId>
+			<version>1.5.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.openejb</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>6.0-4</version>
+			<scope>provided</scope>
+		</dependency>
 	  	<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
