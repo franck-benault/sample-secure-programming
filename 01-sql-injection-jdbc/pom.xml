@@ -6,4 +6,10 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>01-sql-injection-jdbc</artifactId>
+  <dependencies>
+  		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+  </dependencies>
 </project>
