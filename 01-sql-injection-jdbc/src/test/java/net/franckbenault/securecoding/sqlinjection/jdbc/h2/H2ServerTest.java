@@ -20,21 +20,23 @@ public class H2ServerTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		server = new H2Server();
-		server.start();
+
 		
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		server.stop();
+		
 	}
 
 	@Before
 	public void setUp() throws Exception {
+		server.start();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		server.stop();
 	}
 
 	@Test
@@ -42,6 +44,15 @@ public class H2ServerTest {
 		
 		Person person =server.createPerson("firstName", "lastName");
 		assertNotNull(person);
+	}
+	
+	@Test
+	public void testCreatePersonSQLInjection() throws SQLException {
+		
+		Person person =server.createPerson("firstName',''); drop table person;-- ", "lastName");
+		assertNotNull(person);
+		//what there is no more table ?
+		assertEquals(server.countTables(),0);
 	}
 	
 	@Test
