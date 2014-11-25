@@ -2,11 +2,13 @@ package net.franckbenault.securecoding.sqlinjection.jdbc;
 
 import java.sql.SQLException;
 
+import net.franckbenault.securecoding.sqlinjection.dto.Person;
+
 public interface DBServerInterface {
 
 	void start() throws ClassNotFoundException, SQLException;
 	
-	int executeQueryUpdate(String query) throws SQLException;
+	Person createPerson(String firstName, String lastName);
 	
 	int countTables() throws SQLException;
 		

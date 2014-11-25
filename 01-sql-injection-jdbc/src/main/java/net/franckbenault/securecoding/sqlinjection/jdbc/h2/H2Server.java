@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import net.franckbenault.securecoding.sqlinjection.dto.Person;
 import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
 
 public class H2Server implements DBServerInterface {
@@ -25,6 +26,10 @@ public class H2Server implements DBServerInterface {
         ps2 = connection.prepareStatement(
         		"CREATE TABLE PERSON(ID VARCHAR(2), FIRSTNAME VARCHAR(20), LASTNAME VARCHAR(20),  CONSTRAINT PK PRIMARY KEY (ID));;" );
         ps2.executeUpdate();
+	}
+	
+	public Person createPerson(String firstName, String lastName) {
+		return null;
 	}
 	
 	public int executeQueryUpdate(String query) throws SQLException {
