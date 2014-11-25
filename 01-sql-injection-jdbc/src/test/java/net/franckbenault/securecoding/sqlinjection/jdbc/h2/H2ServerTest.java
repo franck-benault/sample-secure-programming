@@ -2,6 +2,10 @@ package net.franckbenault.securecoding.sqlinjection.jdbc.h2;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
+
+import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -9,13 +13,19 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class H2ServerTest {
+	
+	private static DBServerInterface server;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		server = new H2Server();
+		server.start();
+		
 	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		server.stop();
 	}
 
 	@Before
@@ -27,7 +37,9 @@ public class H2ServerTest {
 	}
 
 	@Test
-	public void test() {
+	public void testCountTables() throws SQLException {
+		
+		assertEquals(server.countTables(),1);
 		//fail("Not yet implemented");
 	}
 

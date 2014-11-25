@@ -24,7 +24,7 @@ public class H2Server implements DBServerInterface {
         ps2.executeUpdate();
         ps2 = connection.prepareStatement(
         		"CREATE TABLE PERSON(ID VARCHAR(2), FIRSTNAME VARCHAR(20), LASTNAME VARCHAR(20),  CONSTRAINT PK PRIMARY KEY (ID));;" );
-
+        ps2.executeUpdate();
 	}
 	
 	public int executeQueryUpdate(String query) throws SQLException {
