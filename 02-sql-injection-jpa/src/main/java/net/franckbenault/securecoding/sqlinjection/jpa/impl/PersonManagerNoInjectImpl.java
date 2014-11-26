@@ -11,7 +11,7 @@ import net.franckbenault.securecoding.sqlinjection.jpa.Person;
 import net.franckbenault.securecoding.sqlinjection.jpa.PersonManager;
 
 @Stateless
-public class PersonManagerImpl implements PersonManager {
+public class PersonManagerNoInjectImpl implements PersonManager {
 	
 	@PersistenceContext(unitName = "versie1-unit")
 	private EntityManager em;
@@ -19,9 +19,12 @@ public class PersonManagerImpl implements PersonManager {
 	public Person createPerson(String firstName, String lastName) {
 		
 		long id = System.currentTimeMillis();
-		String sqlOrder = "Insert into PERSONJPA(ID,FIRSTNAME,LASTNAME) values('"+id+"','"+firstName+"','"+lastName+"')";
-		System.out.println(sqlOrder);
+		String sqlOrder = "Insert into PERSONJPA(ID,FIRSTNAME,LASTNAME) values(?,?,?)";
 		Query query = em.createNativeQuery(sqlOrder);
+		query.setParameter(1, id);
+		query.setParameter(2, firstName);
+		query.setParameter(3, lastName);
+
 		query.executeUpdate();
 		
 		return null;

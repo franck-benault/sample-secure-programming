@@ -24,10 +24,10 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>jdbc/versie01</jta-data-source>
     <!-- non-jta-data-source>movieDatabaseUnmanaged</non-jta-data-source-->
-    <class>net.franckbenault.tmptable.jpa.contract.Contract</class>
+    <class>net.franckbenault.securecoding.sqlinjection.jpa.Person</class>
     <properties>
     	<property name="hibernate.ejb.cfgfile" value="hibernate/versie01.xml"/>
-     	
+  	
     </properties>
   </persistence-unit>
 </persistence>

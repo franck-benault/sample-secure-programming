@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class PersonManagerTest {
+public class PersonManagerNoInjectTest {
 
 	private static EJBContainer container;
 	private static PersonManager personManager;
@@ -31,7 +31,7 @@ public class PersonManagerTest {
 	        container = EJBContainer.createEJBContainer(props);
 	        
 	        final Context context = container.getContext();
-	        personManager = (PersonManager) context.lookup("java:global/02-sql-injection-jpa/PersonManagerImpl");
+	        personManager = (PersonManager) context.lookup("java:global/02-sql-injection-jpa/PersonManagerNoInjectImpl");
 
 	 
 	}
@@ -57,6 +57,7 @@ public class PersonManagerTest {
 		//personManager.createPerson("firstName", "lastName");
 		List<Person> persons =personManager.findAllPersons();
 		
+		assertEquals(persons.size(),0);
 		
 		personManager.createPerson("firstName", "lastName");
 		persons =personManager.findAllPersons();
@@ -66,7 +67,7 @@ public class PersonManagerTest {
 		personManager.createPerson("firstName',''); drop table personjpa;-- ", "lastName");
 
 
-		//personManager.findAllPersons();
+		//persons =personManager.findAllPersons();
 
 	
 		
