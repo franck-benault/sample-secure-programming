@@ -1,10 +1,7 @@
 package net.franckbenault.securecoding.sqlinjection.jdbc.h2;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
+
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -12,7 +9,6 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import net.franckbenault.securecoding.sqlinjection.dto.Person;
-import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
 
 public class H2ServerNoInject extends H2Server {
 
