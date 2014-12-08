@@ -9,6 +9,9 @@ import java.sql.SQLException;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 
 import net.franckbenault.securecoding.sqlinjection.dto.Person;
@@ -83,5 +86,36 @@ public class H2Server implements DBServerInterface {
                 size++;
            }
 		return size;
+	}
+	
+	public List<Person> findPersonByFirstNames(List<String> firstNames) throws SQLException {
+		
+		List<Person> persons = new ArrayList<Person>();
+		
+		String firstNamesInString ="";
+		for(String firstName: firstNames) {
+			if(firstNamesInString.equals("")) 			
+				firstNamesInString +="'"+firstName;
+			else
+				firstNamesInString +="','"+firstName;
+		}
+		firstNamesInString +="'";
+		String sqlOrder =
+        		"select FIRSTNAME,LASTNAME from  PERSON  where FIRSTNAME in ("+firstNamesInString+");";
+
+		logger.info("sql order: "+sqlOrder);
+		
+		PreparedStatement ps2 = connection.prepareStatement(sqlOrder);
+        ResultSet rs = ps2.executeQuery();
+		
+        if(rs.first()){
+        	 do{
+        	  String firstName=rs.getString(1);
+        	  String lastName=rs.getString(2);
+        	  persons.add(new Person(firstName,lastName));
+        	  
+        	 }while(rs.next());
+        }
+		return persons;
 	}
 }
