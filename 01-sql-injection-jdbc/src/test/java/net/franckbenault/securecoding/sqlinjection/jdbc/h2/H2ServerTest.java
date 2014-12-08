@@ -65,7 +65,7 @@ public class H2ServerTest {
 	}
 	
 	@Test
-	public void testFindPersonByFirstNames() throws SQLException {
+	public void testFindPersonByFirstNamesSQLInjection() throws SQLException {
 		
 		server.createPerson("firstName1","lastName1");
 		server.createPerson("firstName2","lastName2");
@@ -79,6 +79,14 @@ public class H2ServerTest {
 		List<Person> persons =server.findPersonByFirstNames(firstNames);
 		assertNotNull(persons);
 		assertEquals(persons.size(),2);
+		
+		firstNames.add("firstName1',''); drop table person;-- ");
+		persons =server.findPersonByFirstNames(firstNames);
+		assertNotNull(persons);
+		assertEquals(persons.size(),2);
+		
+		//pb table person drop !
+		assertEquals(server.countTables(),0);
 	}
 
 }
