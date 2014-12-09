@@ -41,7 +41,7 @@ public class H2ServerNoInject extends H2Server {
 		
 		List<Person> persons = new ArrayList<Person>();
 
-		Codec codec = new MySQLCodec(MySQLCodec.Mode.STANDARD);
+		Codec codec = new MySQLCodec(MySQLCodec.Mode.ANSI);
 
 		
 		String firstNamesInString ="(";

@@ -81,13 +81,11 @@ public class H2ServerNoInjectTest {
 		assertEquals(persons.size(),2);
 		
 		firstNames.add("firstName1',''); drop table person;-- ");
-		try {
-			persons =server.findPersonByFirstNames(firstNames);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
+		persons =server.findPersonByFirstNames(firstNames);
+		assertNotNull(persons);
+		assertEquals(persons.size(),2);
+		
 		//pb table person drop ?
 		assertEquals(server.countTables(),1);
 	}
