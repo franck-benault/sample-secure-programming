@@ -16,6 +16,7 @@ import org.owasp.esapi.codecs.Codec;
 import org.owasp.esapi.codecs.MySQLCodec;
 
 import net.franckbenault.securecoding.sqlinjection.dto.Person;
+import net.franckbenault.securecoding.sqlinjection.util.ListUtil;
 
 public class H2ServerNoInject extends H2Server {
 
@@ -39,26 +40,26 @@ public class H2ServerNoInject extends H2Server {
 	
 	public List<Person> findPersonByFirstNames(List<String> firstNames) throws SQLException {
 		
+		
+		List<String> firstNamesEncoded = new ArrayList<String>();
+		Codec codec = new MySQLCodec(MySQLCodec.Mode.ANSI);
+		for(String s : firstNames) {
+			firstNamesEncoded.add(ESAPI.encoder().encodeForSQL(codec, s));
+		}
+		
+		
 		List<Person> persons = new ArrayList<Person>();
 
-		Codec codec = new MySQLCodec(MySQLCodec.Mode.ANSI);
 
 		
-		String firstNamesInString ="(";
-		for(String firstName: firstNames) {
-			String encoded = ESAPI.encoder().encodeForSQL(codec, firstName);
-			if(firstNamesInString.equals("(")) 			
-				firstNamesInString +="'"+encoded;
-			else
-				firstNamesInString +="','"+encoded;
-		}
-		firstNamesInString +="')";
+		
+		String firstNamesInString = ListUtil.listToString(firstNamesEncoded);
 		logger.info(firstNamesInString);
 		
 		
 		
 		String sqlOrder =
-        		"select FIRSTNAME,LASTNAME from PERSON where FIRSTNAME in %s;";
+        		"select FIRSTNAME,LASTNAME from PERSON where FIRSTNAME in (%s);";
 		sqlOrder =String.format(sqlOrder, firstNamesInString);
 		
 		logger.info("sql order: "+sqlOrder);

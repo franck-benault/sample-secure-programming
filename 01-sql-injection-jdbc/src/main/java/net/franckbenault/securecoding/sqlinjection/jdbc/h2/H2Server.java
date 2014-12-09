@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import net.franckbenault.securecoding.sqlinjection.dto.Person;
 import net.franckbenault.securecoding.sqlinjection.jdbc.DBServerInterface;
+import net.franckbenault.securecoding.sqlinjection.util.ListUtil;
 
 public class H2Server implements DBServerInterface {
 
@@ -92,14 +93,7 @@ public class H2Server implements DBServerInterface {
 		
 		List<Person> persons = new ArrayList<Person>();
 		
-		String firstNamesInString ="";
-		for(String firstName: firstNames) {
-			if(firstNamesInString.equals("")) 			
-				firstNamesInString +="'"+firstName;
-			else
-				firstNamesInString +="','"+firstName;
-		}
-		firstNamesInString +="'";
+		String firstNamesInString = ListUtil.listToString(firstNames);
 		String sqlOrder =
         		"select FIRSTNAME,LASTNAME from  PERSON  where FIRSTNAME in ("+firstNamesInString+");";
 
