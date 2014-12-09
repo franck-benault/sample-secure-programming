@@ -35,4 +35,8 @@ public class PersonManagerNoInjectImpl implements PersonManager {
 		return em.createQuery(
 	            "select s from Person s", Person.class).getResultList();
 	}
+	
+	public 	List<Person> findPersonByFirstNames(List<String> firstNames) {
+		return null;
+	}
 }

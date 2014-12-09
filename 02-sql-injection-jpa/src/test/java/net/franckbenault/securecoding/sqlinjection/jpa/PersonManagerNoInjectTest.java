@@ -9,10 +9,9 @@ import java.util.Properties;
 
 import javax.naming.Context;
 
+
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PersonManagerNoInjectTest {
@@ -21,8 +20,8 @@ public class PersonManagerNoInjectTest {
 	private static PersonManager personManager;
 	
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 	       final Properties props = new Properties();
 	        props.setProperty("openejb.embedded.remotable", "true");
 	        //props.setProperty(EJBContainer.PROVIDER, "tomee-embedded");
@@ -31,24 +30,14 @@ public class PersonManagerNoInjectTest {
 	        container = EJBContainer.createEJBContainer(props);
 	        
 	        final Context context = container.getContext();
-	        personManager = (PersonManager) context.lookup("java:global/02-sql-injection-jpa/PersonManagerNoInjectImpl");
+	        personManager = (PersonManager) context.lookup("java:global/02-sql-injection-jpa/PersonManagerImpl");
 
-	 
-	}
 	
-
-
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-		container.close();
-	}
-
-	@Before
-	public void setUp() throws Exception {
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		container.close();
 	}
 
 	@Test
@@ -67,7 +56,14 @@ public class PersonManagerNoInjectTest {
 		personManager.createPerson("firstName',''); drop table personjpa;-- ", "lastName");
 
 
-		//persons =personManager.findAllPersons();
+		try {
+			persons =personManager.findAllPersons();
+			fail("exception expected");
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
 
 	
 		
