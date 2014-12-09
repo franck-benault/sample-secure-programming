@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import javax.ejb.embeddable.EJBContainer;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -62,4 +64,27 @@ public class PersonManagerTest {
 		
 	}
 
+	@Test
+	public void testFindPersonByFirstNamesSQLInjection() throws SQLException {
+		
+		personManager.createPerson("firstName1","lastName1");
+		personManager.createPerson("firstName2","lastName2");
+		personManager.createPerson("firstName3","lastName3");
+		
+		List<String> firstNames = new ArrayList<String>();
+		firstNames.add("firstName1");
+		firstNames.add("firstName2");
+		firstNames.add("firstName4");
+		
+		List<Person> persons =personManager.findPersonByFirstNames(firstNames);
+		assertNotNull(persons);
+		assertEquals(persons.size(),2);
+		
+		firstNames.add("firstName1',''); drop table person;-- ");
+		
+		persons =personManager.findPersonByFirstNames(firstNames);
+		assertNotNull(persons);
+		assertEquals(persons.size(),2);
+		
+	}
 }

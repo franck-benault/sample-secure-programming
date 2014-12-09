@@ -1,14 +1,21 @@
 package net.franckbenault.securecoding.sqlinjection.jpa.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.codecs.Codec;
+import org.owasp.esapi.codecs.MySQLCodec;
 
 import net.franckbenault.securecoding.sqlinjection.jpa.Person;
 import net.franckbenault.securecoding.sqlinjection.jpa.PersonManager;
+import net.franckbenault.securecoding.sqlinjection.util.ListUtil;
 
 @Stateless
 public class PersonManagerNoInjectImpl implements PersonManager {
@@ -37,6 +44,24 @@ public class PersonManagerNoInjectImpl implements PersonManager {
 	}
 	
 	public 	List<Person> findPersonByFirstNames(List<String> firstNames) {
-		return null;
+		
+		List<String> firstNamesEncoded = new ArrayList<String>();
+		Codec codec = new MySQLCodec(MySQLCodec.Mode.ANSI);
+		for(String s : firstNames) {
+			firstNamesEncoded.add(ESAPI.encoder().encodeForSQL(codec, s));
+		}		
+		String firstNamesInString = ListUtil.listToString(firstNamesEncoded);
+		
+		
+		String sqlOrder =
+        		"select p from Person p where p.firstname in ("+firstNamesInString+")";
+
+		System.out.println(sqlOrder);
+		TypedQuery<Person> query = em.createQuery(sqlOrder, Person.class);
+		List<Person> persons = query.getResultList();
+		
+
+		return persons;
 	}
+	
 }
